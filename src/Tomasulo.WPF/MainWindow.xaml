@@ -3,7 +3,7 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
                      Title="Tomasulo算法模拟器"
-                     Height="771"
+                     Height="767"
                      Width="986"
                      TextOptions.TextFormattingMode="Display"
                      TextOptions.TextRenderingMode="ClearType"
@@ -99,27 +99,27 @@
         </Fluent:Ribbon>
 
         <Grid>
-            <DataGrid HorizontalAlignment="Left"  Name="OrderQueue" Margin="10,35,0,0" VerticalAlignment="Top" Height="191" Width="305" TextOptions.TextHintingMode="Fixed" RowHeight="20" HeadersVisibility="Column" CanUserSortColumns="False" />
+            <DataGrid HorizontalAlignment="Left"  Name="OrderQueue" Margin="10,35,0,0" VerticalAlignment="Top" Height="191" Width="305" TextOptions.TextHintingMode="Fixed" RowHeight="20" HeadersVisibility="Column" CanUserSortColumns="False" ColumnWidth="*" />
             <Label Content="指令队列" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="305"/>
 
-            <DataGrid x:Name="OrderState" HorizontalAlignment="Left" Margin="344,38,0,0" VerticalAlignment="Top" Height="188" Width="302" TextOptions.TextHintingMode="Fixed" HeadersVisibility="Column" CanUserSortColumns="False"/>
+            <DataGrid x:Name="OrderState" HorizontalAlignment="Left" Margin="344,38,0,0" VerticalAlignment="Top" Height="188" Width="302" TextOptions.TextHintingMode="Fixed" HeadersVisibility="Column" CanUserSortColumns="False" ColumnWidth="*"/>
             <Label Content="运行状态" HorizontalAlignment="Left" Margin="344,13,0,0" VerticalAlignment="Top" Width="302"/>
 
-            <DataGrid x:Name="LoadQueue" HorizontalAlignment="Left" Margin="676,35,0,0" VerticalAlignment="Top" Height="77" Width="279" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False"/>
+            <DataGrid x:Name="LoadQueue" HorizontalAlignment="Left" Margin="676,35,0,0" VerticalAlignment="Top" Height="77" Width="279" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False" ColumnWidth="*"/>
             <Label Content="Load Queue" HorizontalAlignment="Left" Margin="676,8,0,0" VerticalAlignment="Top" Width="279"/>
 
-            <DataGrid x:Name="StoreQueue" HorizontalAlignment="Left" Margin="677,147,0,0" VerticalAlignment="Top" Height="79" Width="279" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False"/>
+            <DataGrid x:Name="StoreQueue" HorizontalAlignment="Left" Margin="677,147,0,0" VerticalAlignment="Top" Height="79" Width="279" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False" ColumnWidth="*"/>
             <Label Content="Store Queue" HorizontalAlignment="Left" Margin="677,117,0,0" VerticalAlignment="Top" Width="279"/>
             <Label Content="指令条数：" HorizontalAlignment="Left" Margin="11,231,0,0" VerticalAlignment="Top"/>
             <Label Content="6" HorizontalAlignment="Left" Margin="86,231,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.059,0.52"/>
             <Label Content="PC：" HorizontalAlignment="Left" Margin="247,231,0,0" VerticalAlignment="Top"/>
             <Label Content="0" HorizontalAlignment="Left" Margin="298,231,0,0" VerticalAlignment="Top"/>
             <Label Content="内存 MEM" HorizontalAlignment="Left" Margin="10,261,0,0" VerticalAlignment="Top"/>
-            <DataGrid x:Name="Memory" HorizontalAlignment="Left" Margin="11,291,0,0" VerticalAlignment="Top" Height="167" Width="316" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False"/>
+            <DataGrid x:Name="Memory" HorizontalAlignment="Left" Margin="11,291,0,0" VerticalAlignment="Top" Height="167" Width="316" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False" ColumnWidth="*"/>
             <Label x:Name="Reservation" Content="Reservation Stations" HorizontalAlignment="Left" Margin="344,260,0,0" VerticalAlignment="Top"/>
-            <DataGrid HorizontalAlignment="Left" Margin="344,290,0,0" VerticalAlignment="Top" Height="168" Width="611" TextOptions.TextHintingMode="Fixed" HeadersVisibility="Column" CanUserSortColumns="False"/>
+            <DataGrid HorizontalAlignment="Left" Margin="344,290,0,0" VerticalAlignment="Top" Height="168" Width="611" TextOptions.TextHintingMode="Fixed" HeadersVisibility="Column" CanUserSortColumns="False" ColumnWidth="*"/>
             <Label Content="浮点寄存器 FU" HorizontalAlignment="Left" Margin="15,470,0,0" VerticalAlignment="Top"/>
-            <DataGrid x:Name="FU" HorizontalAlignment="Left" Margin="15,495,0,0" VerticalAlignment="Top" Height="90" Width="943" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False"/>
+            <DataGrid x:Name="FU" HorizontalAlignment="Left" Margin="15,495,0,0" VerticalAlignment="Top" Height="90" Width="943" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False" ColumnWidth="*"/>
         </Grid>
 
     </StackPanel>
