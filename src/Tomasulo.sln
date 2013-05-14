@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomasulo.WPF", "Tomasulo.WPF\Tomasulo.WPF.csproj", "{0D43A598-8D9C-4DEC-9C09-AC76C026922F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomasulo.Core", "Tomasulo.Core\Tomasulo.Core.csproj", "{DDD46FB0-7E2C-4B1C-9D3B-055502D22B1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{0D43A598-8D9C-4DEC-9C09-AC76C026922F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D43A598-8D9C-4DEC-9C09-AC76C026922F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D43A598-8D9C-4DEC-9C09-AC76C026922F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDD46FB0-7E2C-4B1C-9D3B-055502D22B1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDD46FB0-7E2C-4B1C-9D3B-055502D22B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDD46FB0-7E2C-4B1C-9D3B-055502D22B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDD46FB0-7E2C-4B1C-9D3B-055502D22B1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

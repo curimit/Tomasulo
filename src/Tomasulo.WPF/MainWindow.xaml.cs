@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tomasulo.Core;
 using Fluent;
 
 namespace Tomasulo.WPF
@@ -24,17 +25,9 @@ namespace Tomasulo.WPF
         {
             InitializeComponent();
 
-            List<Order> orders = new List<Order>();
-            orders.Add(new Order { Name = "LD", Desti = "F6", Sourcej = "34", Sourcek = "R2" });
+            List<InstructionItem> orders = new List<InstructionItem>();
+            orders.Add(new InstructionItem { Name = "LD", F1 = "F6", F2 = "34", F3 = "R2" });
             this.OrderQueue.ItemsSource = orders;
         }
-    }
-
-    public class Order
-    {
-        public string Name { get; set; }
-        public string Desti { get; set; }
-        public string Sourcej { get; set; }
-        public string Sourcek { get; set; }
     }
 }

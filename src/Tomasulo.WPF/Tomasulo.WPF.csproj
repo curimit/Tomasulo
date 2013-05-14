@@ -126,6 +126,12 @@
   <ItemGroup>
     <Resource Include="Images\Pause.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tomasulo.Core\Tomasulo.Core.csproj">
+      <Project>{ddd46fb0-7e2c-4b1c-9d3b-055502d22b1c}</Project>
+      <Name>Tomasulo.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
