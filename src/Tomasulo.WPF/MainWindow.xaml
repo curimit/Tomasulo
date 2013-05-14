@@ -3,124 +3,187 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
                      Title="Tomasulo算法模拟器"
-                     Height="767"
+                     Height="841"
                      Width="986"
                      TextOptions.TextFormattingMode="Display"
                      TextOptions.TextRenderingMode="ClearType"
                      TextOptions.TextHintingMode="Fixed"
                      Background="#FFEBEDF0">
-    <StackPanel>
-        <Fluent:Ribbon FocusManager.IsFocusScope="True" Title="Tomasulo算法模拟器" TextOptions.TextHintingMode="Fixed">
+  <StackPanel>
+    <Fluent:Ribbon FocusManager.IsFocusScope="True" Title="Tomasulo算法模拟器" TextOptions.TextHintingMode="Fixed">
 
-            <Fluent:RibbonTabItem Header="开始" >
-                <Fluent:RibbonGroupBox Header="输入">
+      <Fluent:RibbonTabItem Header="开始" >
+        <Fluent:RibbonGroupBox Header="例子">
 
-                    <Fluent:Button Header="样例一" IsEnabled="True" Icon="Images\Sample.png" LargeIcon="Images\Sample.png">
-                        <Fluent:Button.ToolTip>
-                            <Fluent:ScreenTip Title="样例一" Width ="250"
-                                              Image="Images\Sample.png"
-                                              Text="这个例子中包含了这些指令：ADDD/SUBD/MULD/DIVD/LD"      
-                                              />
-                        </Fluent:Button.ToolTip>
-                    </Fluent:Button>
+          <Fluent:Button Header="样例一" IsEnabled="True" Icon="Images\Sample.png" LargeIcon="Images\Sample.png" Click="Example1_Click">
+            <Fluent:Button.ToolTip>
+              <Fluent:ScreenTip Title="样例一" Width ="250"
+                                Image="Images\Sample.png"
+                                Text="这个例子中包含了这些指令：ADDD/SUBD/MULD/DIVD/LD"      
+                                />
+            </Fluent:Button.ToolTip>
+          </Fluent:Button>
 
-                    <Fluent:Button Header="样例二" IsEnabled="True" Icon="Images\Sample.png" LargeIcon="Images\Sample.png">
-                        <Fluent:Button.ToolTip>
-                            <Fluent:ScreenTip Title="样例二" Width ="250"
-                                              Image="Images\Sample.png"
-                                              Text="这个例子中包含了这些指令：ADDD/SUBD/MULD/DIVD/LD/SD"      
-                                              />
-                        </Fluent:Button.ToolTip>
-                    </Fluent:Button>
+          <Fluent:Button Header="样例二" IsEnabled="True" Icon="Images\Sample.png" LargeIcon="Images\Sample.png" Click="Example2_Click">
+            <Fluent:Button.ToolTip>
+              <Fluent:ScreenTip Title="样例二" Width ="250"
+                                Image="Images\Sample.png"
+                                Text="这个例子中包含了这些指令：ADDD/SUBD/MULD/DIVD/LD/SD"      
+                                />
+            </Fluent:Button.ToolTip>
+          </Fluent:Button>
 
-                </Fluent:RibbonGroupBox>
+        </Fluent:RibbonGroupBox>
 
-                <Fluent:RibbonGroupBox Header="帮助">
-                    <Fluent:Button Header="关于" IsEnabled="True" Icon="Images\Info.png" LargeIcon="Images\Info.png" />
-                    <Fluent:Button Header="帮助" IsEnabled="True" Icon="Images\Help.png" LargeIcon="Images\Help.png" />
-                </Fluent:RibbonGroupBox>
-            </Fluent:RibbonTabItem>
+        <Fluent:RibbonGroupBox Header="编辑">
 
+          <Fluent:Button Header="添加指令" IsEnabled="True" Icon="Images\Add.png" LargeIcon="Images\Add.png">
+          </Fluent:Button>
 
-            <Fluent:RibbonTabItem Header="控制" >
-                <Fluent:RibbonGroupBox Header="运行模式" >
-                    <Fluent:Button Header="自动执行" Icon="Images\Run.png" LargeIcon="Images\Run.png">
-                        <Fluent:Button.ToolTip>
-                            <Fluent:ScreenTip Title="自动执行"
-                                              Image="Images\Run.png"
-                                              Text="进入自动执行模式"
-                                              />
-                        </Fluent:Button.ToolTip>
-                    </Fluent:Button>
+          <Fluent:Button Header="删除指令" IsEnabled="True" Icon="Images\Delete.png" LargeIcon="Images\Delete.png">
+          </Fluent:Button>
 
-                    <Fluent:Button Header="单步执行" Icon="Images\Start.png" LargeIcon="Images\Start.png">
-                        <Fluent:Button.ToolTip>
-                            <Fluent:ScreenTip Title="单步执行"
-                                              Image="Images\Start.png"
-                                              Text="进入单步执行模式"
-                                              />
-                        </Fluent:Button.ToolTip>
-                    </Fluent:Button>
-                </Fluent:RibbonGroupBox>
+        </Fluent:RibbonGroupBox>
 
-                <Fluent:RibbonGroupBox Header="运行控制" >
-                    <Fluent:Button Header="下一步" Icon="Images\Next.png" LargeIcon="Images\Next.png">
-                        <Fluent:Button.ToolTip>
-                            <Fluent:ScreenTip Title="下一步"
-                                              HelpTopic="Help for Gray ScreenTip"
-                                              Image="Images\Next.png"
-                                              Text="下一个时钟周期"
-                                              />
-                        </Fluent:Button.ToolTip>
-                    </Fluent:Button>
+        <Fluent:RibbonGroupBox Header="帮助">
+          <Fluent:Button Header="关于" IsEnabled="True" Icon="Images\Info.png" LargeIcon="Images\Info.png" />
+          <Fluent:Button Header="帮助" IsEnabled="True" Icon="Images\Help.png" LargeIcon="Images\Help.png" />
+        </Fluent:RibbonGroupBox>
+      </Fluent:RibbonTabItem>
 
-                    <Fluent:Button Header="暂停" Icon="Images\Pause.png" LargeIcon="Images\Pause.png">
-                        <Fluent:Button.ToolTip>
-                            <Fluent:ScreenTip Title="暂停"
-                                              HelpTopic="Help for Gray ScreenTip"
-                                              Image="Images\Pause.png"
-                                              Text="暂停当前程序"
-                                              />
-                        </Fluent:Button.ToolTip>
-                    </Fluent:Button>
+      <Fluent:RibbonTabItem Header="控制" >
+        <Fluent:RibbonGroupBox Header="运行模式" >
+          <Fluent:Button Header="自动执行" Icon="Images\Run.png" LargeIcon="Images\Run.png">
+            <Fluent:Button.ToolTip>
+              <Fluent:ScreenTip Title="自动执行"
+                                Image="Images\Run.png"
+                                Text="进入自动执行模式"
+                                />
+            </Fluent:Button.ToolTip>
+          </Fluent:Button>
 
-                    <Fluent:Button Header="停止" Icon="Images\Stop.png" LargeIcon="Images\Stop.png">
-                        <Fluent:Button.ToolTip>
-                            <Fluent:ScreenTip Title="停止"
-                                              HelpTopic="Help for Gray ScreenTip"
-                                              Image="Images\Stop.png"
-                                              Text="停止当前程序"
-                                              />
-                        </Fluent:Button.ToolTip>
-                    </Fluent:Button>
-                </Fluent:RibbonGroupBox>
-            </Fluent:RibbonTabItem>
+          <Fluent:Button Header="单步执行" Icon="Images\Start.png" LargeIcon="Images\Start.png">
+            <Fluent:Button.ToolTip>
+              <Fluent:ScreenTip Title="单步执行"
+                                Image="Images\Start.png"
+                                Text="进入单步执行模式"
+                                />
+            </Fluent:Button.ToolTip>
+          </Fluent:Button>
+        </Fluent:RibbonGroupBox>
 
-        </Fluent:Ribbon>
+        <Fluent:RibbonGroupBox Header="运行控制" >
+          <Fluent:Button Header="下一步" Icon="Images\Next.png" LargeIcon="Images\Next.png" Click="Next_Click">
+            <Fluent:Button.ToolTip>
+              <Fluent:ScreenTip Title="下一步"
+                                HelpTopic="Help for Gray ScreenTip"
+                                Image="Images\Next.png"
+                                Text="下一个时钟周期"
+                                />
+            </Fluent:Button.ToolTip>
+          </Fluent:Button>
 
-        <Grid>
-            <DataGrid HorizontalAlignment="Left"  Name="OrderQueue" Margin="10,35,0,0" VerticalAlignment="Top" Height="191" Width="305" TextOptions.TextHintingMode="Fixed" RowHeight="20" HeadersVisibility="Column" CanUserSortColumns="False" ColumnWidth="*" />
-            <Label Content="指令队列" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="305"/>
+          <Fluent:Button Header="暂停" Icon="Images\Pause.png" LargeIcon="Images\Pause.png">
+            <Fluent:Button.ToolTip>
+              <Fluent:ScreenTip Title="暂停"
+                                HelpTopic="Help for Gray ScreenTip"
+                                Image="Images\Pause.png"
+                                Text="暂停当前程序"
+                                />
+            </Fluent:Button.ToolTip>
+          </Fluent:Button>
 
-            <DataGrid x:Name="OrderState" HorizontalAlignment="Left" Margin="344,38,0,0" VerticalAlignment="Top" Height="188" Width="302" TextOptions.TextHintingMode="Fixed" HeadersVisibility="Column" CanUserSortColumns="False" ColumnWidth="*"/>
-            <Label Content="运行状态" HorizontalAlignment="Left" Margin="344,13,0,0" VerticalAlignment="Top" Width="302"/>
+          <Fluent:Button Header="停止" Icon="Images\Stop.png" LargeIcon="Images\Stop.png">
+            <Fluent:Button.ToolTip>
+              <Fluent:ScreenTip Title="停止"
+                                HelpTopic="Help for Gray ScreenTip"
+                                Image="Images\Stop.png"
+                                Text="停止当前程序"
+                                />
+            </Fluent:Button.ToolTip>
+          </Fluent:Button>
+        </Fluent:RibbonGroupBox>
+      </Fluent:RibbonTabItem>
 
-            <DataGrid x:Name="LoadQueue" HorizontalAlignment="Left" Margin="676,35,0,0" VerticalAlignment="Top" Height="77" Width="279" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False" ColumnWidth="*"/>
-            <Label Content="Load Queue" HorizontalAlignment="Left" Margin="676,8,0,0" VerticalAlignment="Top" Width="279"/>
+    </Fluent:Ribbon>
+    <Grid Height="676">
+      <Label Content="指令队列" HorizontalAlignment="Left" Margin="11,7,0,0" VerticalAlignment="Top" Width="305"/>
+      <DataGrid HorizontalAlignment="Left"
+                x:Name="OrderQueue"
+                Margin="10,35,0,0"
+                VerticalAlignment="Top"
+                Height="224" Width="674"
+                TextOptions.TextHintingMode="Fixed"
+                HeadersVisibility="Column"
+                CanUserSortColumns="False"
+                />
 
-            <DataGrid x:Name="StoreQueue" HorizontalAlignment="Left" Margin="677,147,0,0" VerticalAlignment="Top" Height="79" Width="279" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False" ColumnWidth="*"/>
-            <Label Content="Store Queue" HorizontalAlignment="Left" Margin="677,117,0,0" VerticalAlignment="Top" Width="279"/>
-            <Label Content="指令条数：" HorizontalAlignment="Left" Margin="11,231,0,0" VerticalAlignment="Top"/>
-            <Label Content="6" HorizontalAlignment="Left" Margin="86,231,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.059,0.52"/>
-            <Label Content="PC：" HorizontalAlignment="Left" Margin="247,231,0,0" VerticalAlignment="Top"/>
-            <Label Content="0" HorizontalAlignment="Left" Margin="298,231,0,0" VerticalAlignment="Top"/>
-            <Label Content="内存 MEM" HorizontalAlignment="Left" Margin="10,261,0,0" VerticalAlignment="Top"/>
-            <DataGrid x:Name="Memory" HorizontalAlignment="Left" Margin="11,291,0,0" VerticalAlignment="Top" Height="167" Width="316" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False" ColumnWidth="*"/>
-            <Label x:Name="Reservation" Content="Reservation Stations" HorizontalAlignment="Left" Margin="344,260,0,0" VerticalAlignment="Top"/>
-            <DataGrid HorizontalAlignment="Left" Margin="344,290,0,0" VerticalAlignment="Top" Height="168" Width="611" TextOptions.TextHintingMode="Fixed" HeadersVisibility="Column" CanUserSortColumns="False" ColumnWidth="*"/>
-            <Label Content="浮点寄存器 FU" HorizontalAlignment="Left" Margin="15,470,0,0" VerticalAlignment="Top"/>
-            <DataGrid x:Name="FU" HorizontalAlignment="Left" Margin="15,495,0,0" VerticalAlignment="Top" Height="90" Width="943" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False" ColumnWidth="*"/>
-        </Grid>
+      <Label Content="Load Queue" HorizontalAlignment="Left" Margin="689,7,0,0" VerticalAlignment="Top" Width="279"/>
+      <DataGrid x:Name="LoadQueue"
+                HorizontalAlignment="Left"
+                Margin="689,35,0,0"
+                VerticalAlignment="Top"
+                Height="90"
+                Width="279"
+                TextOptions.TextHintingMode="Fixed"
+                CanUserSortColumns="False"
+                HeadersVisibility="Column"
+                />
 
-    </StackPanel>
+      <Label Content="Store Queue" HorizontalAlignment="Left" Margin="689,136,0,0" VerticalAlignment="Top" Width="279"/>
+      <DataGrid x:Name="StoreQueue"
+                HorizontalAlignment="Left"
+                Margin="689,169,0,0"
+                VerticalAlignment="Top"
+                Height="90"
+                Width="279"
+                TextOptions.TextHintingMode="Fixed"
+                CanUserSortColumns="False"
+                HeadersVisibility="Column"
+                />
+
+      <Label Content="指令条数：" HorizontalAlignment="Left" Margin="11,264,0,0" VerticalAlignment="Top"/>
+      <Label x:Name="Length" Content="6" HorizontalAlignment="Left" Margin="86,264,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.059,0.52"/>
+
+      <Label Content="PC：" HorizontalAlignment="Left" Margin="247,264,0,0" VerticalAlignment="Top"/>
+      <Label x:Name="PC" Content="0" HorizontalAlignment="Left" Margin="298,264,0,0" VerticalAlignment="Top"/>
+
+      <Label Content="Time：" HorizontalAlignment="Left" Margin="421,264,0,0" VerticalAlignment="Top"/>
+      <Label x:Name="Time" Content="0" HorizontalAlignment="Left" Margin="472,264,0,0" VerticalAlignment="Top"/>
+
+      <Label Content="内存 MEM" HorizontalAlignment="Left" Margin="10,311,0,0" VerticalAlignment="Top"/>
+      <DataGrid x:Name="MemoryTable"
+                HorizontalAlignment="Left"
+                Margin="11,341,0,0"
+                VerticalAlignment="Top"
+                Height="167"
+                Width="316"
+                TextOptions.TextHintingMode="Fixed"
+                CanUserSortColumns="False"
+                />
+
+      <Label Content="Reservation Stations" HorizontalAlignment="Left" Margin="344,310,0,0" VerticalAlignment="Top"/>
+      <DataGrid HorizontalAlignment="Left"
+                x:Name="ReservationTable"
+                Margin="344,340,0,0"
+                VerticalAlignment="Top"
+                Height="168"
+                Width="611"
+                TextOptions.TextHintingMode="Fixed"
+                HeadersVisibility="Column"
+                CanUserSortColumns="False"
+                />
+
+      <Label Content="浮点寄存器 FU" HorizontalAlignment="Left" Margin="15,520,0,0" VerticalAlignment="Top"/>
+      <DataGrid x:Name="FuTable"
+                HorizontalAlignment="Left"
+                Margin="15,545,0,0"
+                VerticalAlignment="Top"
+                Height="107" Width="943"
+                TextOptions.TextHintingMode="Fixed"
+                CanUserSortColumns="False"
+                />
+    </Grid>
+
+  </StackPanel>
 </Fluent:RibbonWindow>

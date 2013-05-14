@@ -7,7 +7,9 @@ namespace Tomasulo.Core
 {
     public class StoreItem
     {
-        public bool IsBusy;
-        public int Address;
+        public string Header { get; set; }
+
+        public bool IsBusy { get; set; }
+        public int Address { get; set; }
     }
 }

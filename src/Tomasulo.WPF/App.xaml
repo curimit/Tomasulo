@@ -42,6 +42,14 @@
             <Style TargetType="DataGrid">
                 <Setter Property="FontFamily" Value="Microsoft YaHei UI" />
                 <Setter Property="FontSize" Value="14" />
+                <Setter Property="CanUserAddRows" Value="False" />
+                <Setter Property="RowHeight" Value="20" />
+                <Setter Property="CanUserAddRows" Value="False" />
+                <Setter Property="CanUserDeleteRows" Value="False" />
+                <Setter Property="CanUserResizeRows" Value="False" />
+                <Setter Property="CanUserResizeColumns" Value="False" />
+                <Setter Property="CanUserSortColumns" Value="False" />
+                <Setter Property="ColumnWidth" Value="*" />
             </Style>
 
         </ResourceDictionary>

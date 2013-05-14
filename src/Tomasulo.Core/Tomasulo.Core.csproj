@@ -39,12 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
+    <Compile Include="DataStructure\Reservation.cs" />
     <Compile Include="DataStructure\FU.cs" />
     <Compile Include="DataStructure\Instruction.cs" />
     <Compile Include="DataStructure\LoadItem.cs" />
     <Compile Include="DataStructure\StoreItem.cs" />
     <Compile Include="Simulator.cs" />
-    <Compile Include="TableItems\Fu.cs" />
+    <Compile Include="TableItems\FuItem.cs" />
     <Compile Include="TableItems\InstructionItem.cs" />
     <Compile Include="TableItems\LoadQueueItem.cs" />
     <Compile Include="TableItems\MemItem.cs" />
