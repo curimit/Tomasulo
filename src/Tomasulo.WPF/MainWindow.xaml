@@ -3,7 +3,7 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
                      Title="Tomasulo算法模拟器"
-                     Height="841"
+                     Height="900"
                      Width="986"
                      TextOptions.TextFormattingMode="Display"
                      TextOptions.TextRenderingMode="ClearType"
@@ -37,10 +37,10 @@
 
         <Fluent:RibbonGroupBox Header="编辑">
 
-          <Fluent:Button Header="添加指令" IsEnabled="True" Icon="Images\Add.png" LargeIcon="Images\Add.png">
+          <Fluent:Button Header="添加指令" IsEnabled="True" Icon="Images\Add.png" LargeIcon="Images\Add.png" Click="Add_Click">
           </Fluent:Button>
 
-          <Fluent:Button Header="删除指令" IsEnabled="True" Icon="Images\Delete.png" LargeIcon="Images\Delete.png">
+          <Fluent:Button Header="删除指令" IsEnabled="True" Icon="Images\Delete.png" LargeIcon="Images\Delete.png" Click="Delete_Click">
           </Fluent:Button>
 
         </Fluent:RibbonGroupBox>
@@ -53,7 +53,7 @@
 
       <Fluent:RibbonTabItem Header="控制" >
         <Fluent:RibbonGroupBox Header="运行模式" >
-          <Fluent:Button Header="自动执行" Icon="Images\Run.png" LargeIcon="Images\Run.png">
+          <Fluent:Button Header="自动执行" Icon="Images\Run.png" LargeIcon="Images\Run.png" Click="Auto_Click">
             <Fluent:Button.ToolTip>
               <Fluent:ScreenTip Title="自动执行"
                                 Image="Images\Run.png"
@@ -62,7 +62,7 @@
             </Fluent:Button.ToolTip>
           </Fluent:Button>
 
-          <Fluent:Button Header="单步执行" Icon="Images\Start.png" LargeIcon="Images\Start.png">
+          <Fluent:Button Header="单步执行" Icon="Images\Start.png" LargeIcon="Images\Start.png" Click="Start_Click">
             <Fluent:Button.ToolTip>
               <Fluent:ScreenTip Title="单步执行"
                                 Image="Images\Start.png"
@@ -72,7 +72,7 @@
           </Fluent:Button>
         </Fluent:RibbonGroupBox>
 
-        <Fluent:RibbonGroupBox Header="运行控制" >
+        <Fluent:RibbonGroupBox Header="运行控制">
           <Fluent:Button Header="下一步" Icon="Images\Next.png" LargeIcon="Images\Next.png" Click="Next_Click">
             <Fluent:Button.ToolTip>
               <Fluent:ScreenTip Title="下一步"
@@ -83,7 +83,7 @@
             </Fluent:Button.ToolTip>
           </Fluent:Button>
 
-          <Fluent:Button Header="暂停" Icon="Images\Pause.png" LargeIcon="Images\Pause.png">
+          <Fluent:Button Header="暂停" Icon="Images\Pause.png" LargeIcon="Images\Pause.png" Click="Pause_Click">
             <Fluent:Button.ToolTip>
               <Fluent:ScreenTip Title="暂停"
                                 HelpTopic="Help for Gray ScreenTip"
@@ -93,7 +93,7 @@
             </Fluent:Button.ToolTip>
           </Fluent:Button>
 
-          <Fluent:Button Header="停止" Icon="Images\Stop.png" LargeIcon="Images\Stop.png">
+          <Fluent:Button Header="停止" Icon="Images\Stop.png" LargeIcon="Images\Stop.png" Click="Stop_Click">
             <Fluent:Button.ToolTip>
               <Fluent:ScreenTip Title="停止"
                                 HelpTopic="Help for Gray ScreenTip"
@@ -106,84 +106,136 @@
       </Fluent:RibbonTabItem>
 
     </Fluent:Ribbon>
-    <Grid Height="676">
-      <Label Content="指令队列" HorizontalAlignment="Left" Margin="11,7,0,0" VerticalAlignment="Top" Width="305"/>
-      <DataGrid HorizontalAlignment="Left"
-                x:Name="OrderQueue"
-                Margin="10,35,0,0"
-                VerticalAlignment="Top"
-                Height="224" Width="674"
-                TextOptions.TextHintingMode="Fixed"
-                HeadersVisibility="Column"
-                CanUserSortColumns="False"
-                />
 
-      <Label Content="Load Queue" HorizontalAlignment="Left" Margin="689,7,0,0" VerticalAlignment="Top" Width="279"/>
-      <DataGrid x:Name="LoadQueue"
-                HorizontalAlignment="Left"
-                Margin="689,35,0,0"
-                VerticalAlignment="Top"
-                Height="90"
-                Width="279"
-                TextOptions.TextHintingMode="Fixed"
-                CanUserSortColumns="False"
-                HeadersVisibility="Column"
-                />
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="100*" />
+        <RowDefinition Height="1*" />
+        <RowDefinition Height="1*" />
+      </Grid.RowDefinitions>
 
-      <Label Content="Store Queue" HorizontalAlignment="Left" Margin="689,136,0,0" VerticalAlignment="Top" Width="279"/>
-      <DataGrid x:Name="StoreQueue"
-                HorizontalAlignment="Left"
-                Margin="689,169,0,0"
-                VerticalAlignment="Top"
-                Height="90"
-                Width="279"
-                TextOptions.TextHintingMode="Fixed"
-                CanUserSortColumns="False"
-                HeadersVisibility="Column"
-                />
+      <Grid Grid.Row="0">
 
-      <Label Content="指令条数：" HorizontalAlignment="Left" Margin="11,264,0,0" VerticalAlignment="Top"/>
-      <Label x:Name="Length" Content="6" HorizontalAlignment="Left" Margin="86,264,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.059,0.52"/>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="3*" />
+          <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Border Padding="10px" Grid.Column="0">
+          <StackPanel>
+            <Label Content="指令队列" HorizontalAlignment="Center" FontSize="20"/>
+            <DataGrid HorizontalAlignment="Left"
+                      x:Name="OrderQueue"
+                      VerticalAlignment="Top"
+                      Width="Auto"
+                      Height="Auto"
+                      MinHeight="300"
+                      TextOptions.TextHintingMode="Fixed"
+                      HeadersVisibility="Column"
+                      CanUserSortColumns="False"
+                      />
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
 
-      <Label Content="PC：" HorizontalAlignment="Left" Margin="247,264,0,0" VerticalAlignment="Top"/>
-      <Label x:Name="PC" Content="0" HorizontalAlignment="Left" Margin="298,264,0,0" VerticalAlignment="Top"/>
+              <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Label Content="指令条数：" FontSize="18"/>
+                <Label x:Name="Length" Content="6" FontSize="18"/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Label Content="PC："  FontSize="18"/>
+                <Label x:Name="PC" Content="0"   FontSize="18"/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <Label Content="时钟周期：" FontSize="18"/>
+                <Label x:Name="Time" Content="0" FontSize="18"/>
+              </StackPanel>
+            </Grid>
+          </StackPanel>
+        </Border>
 
-      <Label Content="Time：" HorizontalAlignment="Left" Margin="421,264,0,0" VerticalAlignment="Top"/>
-      <Label x:Name="Time" Content="0" HorizontalAlignment="Left" Margin="472,264,0,0" VerticalAlignment="Top"/>
+        <Grid Grid.Column="1">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+          </Grid.RowDefinitions>
+          <Border Padding="10px" Grid.Row="0">
+            <Grid>
+              <StackPanel>
+                <Label Content="Load Queue"  HorizontalAlignment="Center" FontSize="20"/>
+                <DataGrid x:Name="LoadQueue"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          TextOptions.TextHintingMode="Fixed"
+                          CanUserSortColumns="False"
+                          HeadersVisibility="Column"
+                          />
+              </StackPanel>
+            </Grid>
+          </Border>
 
-      <Label Content="内存 MEM" HorizontalAlignment="Left" Margin="10,311,0,0" VerticalAlignment="Top"/>
-      <DataGrid x:Name="MemoryTable"
-                HorizontalAlignment="Left"
-                Margin="11,341,0,0"
-                VerticalAlignment="Top"
-                Height="167"
-                Width="316"
-                TextOptions.TextHintingMode="Fixed"
-                CanUserSortColumns="False"
-                />
+          <Border Padding="10px" Grid.Row="1">
+            <Grid >
+              <StackPanel>
+                <Label Content="Store Queue"  HorizontalAlignment="Center" FontSize="20"/>
+                <DataGrid x:Name="StoreQueue"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          TextOptions.TextHintingMode="Fixed"
+                          CanUserSortColumns="False"
+                          HeadersVisibility="Column"
+                          />
+              </StackPanel>
+            </Grid>
+          </Border>
+        </Grid>
+      </Grid>
 
-      <Label Content="Reservation Stations" HorizontalAlignment="Left" Margin="344,310,0,0" VerticalAlignment="Top"/>
-      <DataGrid HorizontalAlignment="Left"
-                x:Name="ReservationTable"
-                Margin="344,340,0,0"
-                VerticalAlignment="Top"
-                Height="168"
-                Width="611"
-                TextOptions.TextHintingMode="Fixed"
-                HeadersVisibility="Column"
-                CanUserSortColumns="False"
-                />
+      <StackPanel  Grid.Row="1">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+          </Grid.ColumnDefinitions>
 
-      <Label Content="浮点寄存器 FU" HorizontalAlignment="Left" Margin="15,520,0,0" VerticalAlignment="Top"/>
-      <DataGrid x:Name="FuTable"
-                HorizontalAlignment="Left"
-                Margin="15,545,0,0"
-                VerticalAlignment="Top"
-                Height="107" Width="943"
-                TextOptions.TextHintingMode="Fixed"
-                CanUserSortColumns="False"
-                />
+          <Border Padding="10px" Grid.Column="0">
+            <StackPanel>
+              <Label Content="内存 MEM"  HorizontalAlignment="Center" FontSize="20"/>
+              <DataGrid x:Name="MemoryTable"
+                        TextOptions.TextHintingMode="Fixed"
+                        HeadersVisibility="Column"
+                        CanUserSortColumns="True"
+                        CanUserAddRows="True"
+                        CanUserDeleteRows="True" CellEditEnding="MemoryTable_CellEditEnding"
+                        />
+            </StackPanel>
+          </Border>
+
+          <Border Padding="10px" Grid.Column="1">
+            <StackPanel>
+              <Label Content="Reservation Stations"  HorizontalAlignment="Center" FontSize="20"/>
+              <DataGrid x:Name="ReservationTable"
+                        TextOptions.TextHintingMode="Fixed"
+                        HeadersVisibility="Column"
+                        CanUserSortColumns="False"
+                        />
+            </StackPanel>
+          </Border>
+        </Grid>
+      </StackPanel>
+
+      <Border Padding="10px" Grid.Row="2">
+        <StackPanel>
+          <Label Content="浮点寄存器 FU"  HorizontalAlignment="Center" FontSize="20"/>
+          <DataGrid x:Name="FuTable"
+                    TextOptions.TextHintingMode="Fixed"
+                    CanUserSortColumns="False"
+                    HeadersVisibility="Column"
+                    />
+        </StackPanel>
+      </Border>
     </Grid>
-
   </StackPanel>
 </Fluent:RibbonWindow>

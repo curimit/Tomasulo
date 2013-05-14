@@ -47,13 +47,8 @@
     <Compile Include="DataStructure\StoreItem.cs" />
     <Compile Include="Simulator.cs" />
     <Compile Include="TableItems\FuItem.cs" />
-    <Compile Include="TableItems\InstructionItem.cs" />
-    <Compile Include="TableItems\LoadQueueItem.cs" />
     <Compile Include="TableItems\MemItem.cs" />
-    <Compile Include="TableItems\ReservationItem.cs" />
-    <Compile Include="TableItems\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableItems\StoreQueueItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

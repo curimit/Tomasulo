@@ -23,8 +23,16 @@ namespace Tomasulo.Core
         public int Time;
 
         public bool IsComplete;
+        public bool IsStarted;
 
         public void Reset()
+        {
+            Clear();
+
+            Q = new List<Instruction>();
+        }
+
+        public void Clear()
         {
             PC = 0;
             for (int i = 0; i < Memory.Length; i++)
@@ -32,11 +40,9 @@ namespace Tomasulo.Core
                 Memory[i] = 0;
                 MemoryBusy[i] = false;
             }
-            Memory[34] = 123;
             for (int i = 0; i < Fu.Length; i++)
             {
                 Fu[i] = new FU();
-                Fu[i].Value = i;
             }
             for (int i = 0; i < LQ.Length; i++)
             {
@@ -66,13 +72,28 @@ namespace Tomasulo.Core
                 Mult[i].Name = string.Format("Mult{0}", i + 1);
             }
 
-            Q = new List<Instruction>();
+            foreach (var x in Q)
+            {
+                x.执行指令 = -1;
+                x.剩余时间 = 0;
+                x.reservation = null;
+                x.完成时间 = 0;
+                x.写回时间 = 0;
+                x.发射指令 = -1;
+                x.Dependency.Clear();
+                x.MemoryLock = -1;
+            }
+
+            IsComplete = false;
+            IsStarted = false;
+
+            Time = 0;
         }
 
         public void Start()
         {
             IsComplete = false;
-            Time = 0;
+            IsStarted = true;
             Next();
         }
 
@@ -86,14 +107,15 @@ namespace Tomasulo.Core
             if (PC < Q.Count()) PC++;
 
             // Each Instruction Past 1 Tick
-            foreach (var I in Q.Take(PC).Where(x => x.StartTime != -1))
+            foreach (var I in Q.Take(PC).Where(x => x.执行指令 != -1))
             {
-                if (I.WriteBackTime != -1) continue;
+                if (I.写回时间 != -1) continue;
 
-                if (I.FinishTime != -1)
+                if (I.完成时间 != -1)
                 {
-                    I.WriteBackTime = Time;
+                    I.写回时间 = Time;
                     if (I.CallBack != null) I.CallBack();
+                    if (I.ReadyBack != null) I.ReadyBack();
                     continue;
                 }
 
@@ -102,18 +124,23 @@ namespace Tomasulo.Core
                     continue;
                 }
 
-                I.TimeRemain--;
-
-                if (I.TimeRemain == 0)
+                if (I.发射指令 == -1)
                 {
-                    I.FinishTime = Time;
+                    I.发射指令 = Time;
+                }
+
+                I.剩余时间--;
+
+                if (I.剩余时间 == 0)
+                {
+                    I.完成时间 = Time;
                 }
 
                 if (I.reservation != null) I.reservation.Time--;
             }
 
             // Dependency
-            foreach (var I in Q.Take(PC).Where(x => x.StartTime != -1))
+            foreach (var I in Q.Take(PC).Where(x => x.执行指令 != -1))
             {
                 if (I.reservation != null)
                 {
@@ -142,7 +169,7 @@ namespace Tomasulo.Core
             }
 
             // Check Dependency Of Instructions
-            foreach (var I in Q.Take(PC).Where(x => x.StartTime == -1))
+            foreach (var I in Q.Take(PC).Where(x => x.执行指令 == -1))
             {
                 switch (I.Name)
                 {
@@ -152,9 +179,9 @@ namespace Tomasulo.Core
                             item.IsBusy = true;
                             item.Address = I.F2;
 
-                            I.StartTime = Time;
-                            I.TimeRemain = 2;
-                            I.FinishTime = I.WriteBackTime = -1;
+                            I.执行指令 = Time;
+                            I.剩余时间 = 2;
+                            I.完成时间 = I.写回时间 = -1;
                             I.reservation = null;
                             
                             if (MemoryBusy[I.F2])
@@ -164,25 +191,29 @@ namespace Tomasulo.Core
 
                             Fu[I.F1].Expr = item.Header;
 
+                            I.ReadyBack = () =>
+                            {
+                                Fu[I.F1].Value = Memory[I.F2];
+                                Fu[I.F1].Expr = null;
+                            };
+
                             I.CallBack = () =>
                             {
                                 item.IsBusy = false;
-                                Fu[I.F1].Value = Memory[I.F2];
-                                Fu[I.F1].Expr = null;
                                 item.Address = -1;
                             };
                             break;
                         }
 
-                    case "SD":
+                    case "ST":
                         {
                             var item = SQ.ToList().Find(x => !x.IsBusy);
                             item.IsBusy = true;
                             item.Address = I.F2;
 
-                            I.StartTime = Time;
-                            I.TimeRemain = 2;
-                            I.FinishTime = I.WriteBackTime = -1;
+                            I.执行指令 = Time;
+                            I.剩余时间 = 2;
+                            I.完成时间 = I.写回时间 = -1;
                             I.reservation = null;
                             if (Fu[I.F1].Expr != null)
                             {
@@ -190,11 +221,16 @@ namespace Tomasulo.Core
                             }
 
                             MemoryBusy[I.F2] = true;
+
+                            I.ReadyBack = () =>
+                            {
+                                Memory[I.F2] = Fu[I.F1].Value;
+                                MemoryBusy[I.F2] = false;
+                            };
+
                             I.CallBack = () =>
                             {
                                 item.IsBusy = false;
-                                Memory[I.F2] = Fu[I.F1].Value;
-                                MemoryBusy[I.F2] = false;
                                 item.Address = -1;
                             };
                             break;
@@ -208,9 +244,9 @@ namespace Tomasulo.Core
                             item.IsBusy = true;
                             item.Op = "ADDD";
 
-                            I.StartTime = Time;
-                            I.TimeRemain = 2;
-                            I.FinishTime = I.WriteBackTime = -1;
+                            I.执行指令 = Time;
+                            I.剩余时间 = 2;
+                            I.完成时间 = I.写回时间 = -1;
                             I.reservation = item;
 
                             if (Fu[I.F2].Expr != null)
@@ -222,7 +258,7 @@ namespace Tomasulo.Core
                                 I.Dependency.Add(I.F3);
                             }
 
-                            item.Time = I.TimeRemain;
+                            item.Time = I.剩余时间;
 
                             item.Q2 = Fu[I.F2].Expr;
                             item.Q3 = Fu[I.F3].Expr;
@@ -237,12 +273,17 @@ namespace Tomasulo.Core
 
                             Fu[I.F1].Expr = string.Format(item.Name, I.F2, I.F3);
 
+                            I.ReadyBack = () =>
+                            {
+                                Fu[I.F1].Value = Fu[I.F2].Value + Fu[I.F3].Value;
+                                Fu[I.F1].Expr = null;
+                            };
+
                             I.CallBack = () =>
                             {
                                 item.IsBusy = false;
                                 item.Op = null;
-                                Fu[I.F1].Value = Fu[I.F2].Value + Fu[I.F3].Value;
-                                Fu[I.F1].Expr = null;
+                                item.F2 = item.F3 = 0;
                             };
                             break;
                         }
@@ -255,9 +296,9 @@ namespace Tomasulo.Core
                             item.IsBusy = true;
                             item.Op = "SUBD";
 
-                            I.StartTime = Time;
-                            I.TimeRemain = 2;
-                            I.FinishTime = I.WriteBackTime = -1;
+                            I.执行指令 = Time;
+                            I.剩余时间 = 2;
+                            I.完成时间 = I.写回时间 = -1;
                             I.reservation = item;
 
                             if (Fu[I.F2].Expr != null)
@@ -269,7 +310,7 @@ namespace Tomasulo.Core
                                 I.Dependency.Add(I.F3);
                             }
 
-                            item.Time = I.TimeRemain;
+                            item.Time = I.剩余时间;
 
                             item.Q2 = Fu[I.F2].Expr;
                             item.Q3 = Fu[I.F3].Expr;
@@ -284,12 +325,17 @@ namespace Tomasulo.Core
 
                             Fu[I.F1].Expr = string.Format(item.Name, I.F2, I.F3);
 
+                            I.ReadyBack = () =>
+                            {
+                                Fu[I.F1].Value = Fu[I.F2].Value - Fu[I.F3].Value;
+                                Fu[I.F1].Expr = null;
+                            };
+
                             I.CallBack = () =>
                             {
                                 item.IsBusy = false;
                                 item.Op = null;
-                                Fu[I.F1].Value = Fu[I.F2].Value - Fu[I.F3].Value;
-                                Fu[I.F1].Expr = null;
+                                item.F2 = item.F3 = 0;
                             };
                             break;
                         }
@@ -302,9 +348,9 @@ namespace Tomasulo.Core
                             item.IsBusy = true;
                             item.Op = "MULD";
 
-                            I.StartTime = Time;
-                            I.TimeRemain = 10;
-                            I.FinishTime = I.WriteBackTime = -1;
+                            I.执行指令 = Time;
+                            I.剩余时间 = 10;
+                            I.完成时间 = I.写回时间 = -1;
                             I.reservation = item;
 
                             if (Fu[I.F2].Expr != null)
@@ -316,7 +362,7 @@ namespace Tomasulo.Core
                                 I.Dependency.Add(I.F3);
                             }
 
-                            item.Time = I.TimeRemain;
+                            item.Time = I.剩余时间;
 
                             item.Q2 = Fu[I.F2].Expr;
                             item.Q3 = Fu[I.F3].Expr;
@@ -331,12 +377,17 @@ namespace Tomasulo.Core
 
                             Fu[I.F1].Expr = string.Format(item.Name, I.F2, I.F3);
 
+                            I.ReadyBack = () =>
+                            {
+                                Fu[I.F1].Value = Fu[I.F2].Value * Fu[I.F3].Value;
+                                Fu[I.F1].Expr = null;
+                            };
+
                             I.CallBack = () =>
                             {
                                 item.IsBusy = false;
                                 item.Op = null;
-                                Fu[I.F1].Value = Fu[I.F2].Value * Fu[I.F3].Value;
-                                Fu[I.F1].Expr = null;
+                                item.F2 = item.F3 = 0;
                             };
                             break;
                         }
@@ -349,9 +400,9 @@ namespace Tomasulo.Core
                             item.IsBusy = true;
                             item.Op = "DIVD";
 
-                            I.StartTime = Time;
-                            I.TimeRemain = 40;
-                            I.FinishTime = I.WriteBackTime = -1;
+                            I.执行指令 = Time;
+                            I.剩余时间 = 40;
+                            I.完成时间 = I.写回时间 = -1;
                             I.reservation = item;
 
                             if (Fu[I.F2].Expr != null)
@@ -363,7 +414,7 @@ namespace Tomasulo.Core
                                 I.Dependency.Add(I.F3);
                             }
 
-                            item.Time = I.TimeRemain;
+                            item.Time = I.剩余时间;
 
                             item.Q2 = Fu[I.F2].Expr;
                             item.Q3 = Fu[I.F3].Expr;
@@ -378,12 +429,17 @@ namespace Tomasulo.Core
 
                             Fu[I.F1].Expr = string.Format(item.Name, I.F2, I.F3);
 
+                            I.ReadyBack = () =>
+                            {
+                                Fu[I.F1].Value = Fu[I.F2].Value / Fu[I.F3].Value;
+                                Fu[I.F1].Expr = null;
+                            };
+
                             I.CallBack = () =>
                             {
                                 item.IsBusy = false;
                                 item.Op = null;
-                                Fu[I.F1].Value = Fu[I.F2].Value / Fu[I.F3].Value;
-                                Fu[I.F1].Expr = null;
+                                item.F2 = item.F3 = 0;
                             };
                             break;
                         }
@@ -391,7 +447,7 @@ namespace Tomasulo.Core
             }
 
             // Check Complete
-            IsComplete = PC == Q.Count() && Q.All(x => x.WriteBackTime != -1);
+            IsComplete = PC == Q.Count() && Q.All(x => x.写回时间 != -1);
         }
     }
 }
