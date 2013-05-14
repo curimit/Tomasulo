@@ -39,15 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Structs\Fu.cs" />
-    <Compile Include="Structs\InstructionItem.cs" />
-    <Compile Include="Structs\LoadQueueItem.cs" />
-    <Compile Include="Structs\MemItem.cs" />
-    <Compile Include="Structs\ReservationItem.cs" />
-    <Compile Include="Structs\Ru.cs" />
-    <Compile Include="Structs\Status.cs" />
+    <Compile Include="DataStructure\FU.cs" />
+    <Compile Include="DataStructure\Instruction.cs" />
+    <Compile Include="DataStructure\LoadItem.cs" />
+    <Compile Include="DataStructure\StoreItem.cs" />
+    <Compile Include="Simulator.cs" />
+    <Compile Include="TableItems\Fu.cs" />
+    <Compile Include="TableItems\InstructionItem.cs" />
+    <Compile Include="TableItems\LoadQueueItem.cs" />
+    <Compile Include="TableItems\MemItem.cs" />
+    <Compile Include="TableItems\ReservationItem.cs" />
+    <Compile Include="TableItems\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Structs\StoreQueueItem.cs" />
+    <Compile Include="TableItems\StoreQueueItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

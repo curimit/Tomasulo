@@ -3,7 +3,7 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
                      Title="Tomasulo算法模拟器"
-                     Height="887"
+                     Height="771"
                      Width="986"
                      TextOptions.TextFormattingMode="Display"
                      TextOptions.TextRenderingMode="ClearType"
@@ -120,8 +120,6 @@
             <DataGrid HorizontalAlignment="Left" Margin="344,290,0,0" VerticalAlignment="Top" Height="168" Width="611" TextOptions.TextHintingMode="Fixed" HeadersVisibility="Column" CanUserSortColumns="False"/>
             <Label Content="浮点寄存器 FU" HorizontalAlignment="Left" Margin="15,470,0,0" VerticalAlignment="Top"/>
             <DataGrid x:Name="FU" HorizontalAlignment="Left" Margin="15,495,0,0" VerticalAlignment="Top" Height="90" Width="943" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False"/>
-            <Label Content="整形寄存器 RU" HorizontalAlignment="Left" Margin="15,590,0,0" VerticalAlignment="Top"/>
-            <DataGrid x:Name="RU" HorizontalAlignment="Left" Margin="15,620,0,0" VerticalAlignment="Top" Height="83" Width="943" TextOptions.TextHintingMode="Fixed" CanUserSortColumns="False"/>
         </Grid>
 
     </StackPanel>
