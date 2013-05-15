@@ -32,9 +32,10 @@ namespace Tomasulo.WPF
 
         private Reservation[] reservation = new Reservation[5];
 
-
         private int Delay = 20;
         private int Delay_Counter = 0;
+
+        private bool NeedRefreshMemoryTable = false;
 
         private bool AutoNext = false;
 
@@ -58,6 +59,13 @@ namespace Tomasulo.WPF
             if (Delay_Counter == 0 && AutoNext && !this.simulator.IsComplete)
             {
                 this.Next_Click(null, null);
+            }
+
+            if (this.NeedRefreshMemoryTable)
+            {
+                CommitTables(this.MemoryTable);
+                this.MemoryTable.Items.Refresh();
+                this.NeedRefreshMemoryTable = false;
             }
         }
 
@@ -179,29 +187,32 @@ namespace Tomasulo.WPF
                     int k = int.Parse(x.Address);
                     x.Value = this.simulator.Memory[k].ToString();
                 }
-                catch
-                {
-                }
+                catch { }
             }
             this.MemoryTable.Items.Refresh();
         }
 
         private void MemoryTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            System.Windows.Controls.TextBox t = e.EditingElement as System.Windows.Controls.TextBox;
+            try
+            {
+                System.Windows.Controls.TextBox t = e.EditingElement as System.Windows.Controls.TextBox;
 
-            string Option = e.Column.SortMemberPath;
-            var item = this.Memory[this.MemoryTable.SelectedIndex];
-            if (Option == "Address")
-            {
-                item.Address = t.Text;
-                item.Value = this.simulator.Memory[int.Parse(t.Text)].ToString();
+                string Option = e.Column.SortMemberPath;
+                var item = this.Memory[this.MemoryTable.SelectedIndex];
+                if (Option == "Address")
+                {
+                    item.Address = t.Text;
+                    item.Value = this.simulator.Memory[int.Parse(t.Text)].ToString();
+                    this.NeedRefreshMemoryTable = true;
+                }
+                else
+                {
+                    this.simulator.Memory[int.Parse(item.Address)] = double.Parse(t.Text);
+                    item.Value = t.Text;
+                }
             }
-            else
-            {
-                this.simulator.Memory[int.Parse(item.Address)] = double.Parse(t.Text);
-                item.Value = t.Text;
-            }
+            catch { }
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -209,6 +220,7 @@ namespace Tomasulo.WPF
             int k = this.OrderQueue.SelectedIndex + 1;
             if (k == -1) k = 0;
             this.simulator.Q.Insert(k, new Instruction());
+            CommitTables(this.OrderQueue);
             this.OrderQueue.Items.Refresh();
         }
 
@@ -217,6 +229,7 @@ namespace Tomasulo.WPF
             int k = this.OrderQueue.SelectedIndex;
             if (k == -1) return;
             this.simulator.Q.RemoveAt(k);
+            CommitTables(this.OrderQueue);
             this.OrderQueue.Items.Refresh();
         }
 
@@ -256,6 +269,29 @@ namespace Tomasulo.WPF
             this.AutoNext = false;
             this.simulator.Clear();
             UpdateGui();
+        }
+
+        private bool IsUnderTabHeader(DependencyObject control)
+        {
+            if (control is TabItem)
+                return true;
+            DependencyObject parent = VisualTreeHelper.GetParent(control);
+            if (parent == null)
+                return false;
+            return IsUnderTabHeader(parent);
+        }
+
+        private void CommitTables(DependencyObject control)
+        {
+            if (control is DataGrid)
+            {
+                DataGrid grid = control as DataGrid;
+                grid.CommitEdit(DataGridEditingUnit.Row, true);
+                return;
+            }
+            int childrenCount = VisualTreeHelper.GetChildrenCount(control);
+            for (int childIndex = 0; childIndex < childrenCount; childIndex++)
+                CommitTables(VisualTreeHelper.GetChild(control, childIndex));
         }
     }
 }
