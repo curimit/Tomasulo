@@ -79,7 +79,7 @@ namespace Tomasulo.Core
                 x.reservation = null;
                 x.完成时间 = 0;
                 x.写回时间 = 0;
-                x.发射指令 = -1;
+                x.开始执行 = -1;
                 x.Dependency.Clear();
                 x.MemoryLock = -1;
             }
@@ -124,9 +124,9 @@ namespace Tomasulo.Core
                     continue;
                 }
 
-                if (I.发射指令 == -1)
+                if (I.开始执行 == -1)
                 {
-                    I.发射指令 = Time;
+                    I.开始执行 = Time;
                 }
 
                 I.剩余时间--;

@@ -14,7 +14,7 @@ namespace Tomasulo.Core
 
         public int 执行指令;
 
-        public int 发射指令 { get; set; }
+        public int 开始执行 { get; set; }
         public int 剩余时间 { get; set; }
 
         public int 完成时间 { get; set; }
@@ -30,6 +30,7 @@ namespace Tomasulo.Core
         public Instruction()
         {
             this.执行指令 = -1;
+            this.开始执行 = -1;
         }
     }
 }
